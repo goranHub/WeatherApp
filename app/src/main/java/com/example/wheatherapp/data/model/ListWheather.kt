@@ -1,4 +1,4 @@
-package com.example.wheatherapp.response
+package com.example.wheatherapp.data.model
 
 /**
  * @author lllhr

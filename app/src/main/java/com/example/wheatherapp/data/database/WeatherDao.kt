@@ -1,4 +1,4 @@
-package com.example.wheatherapp.database
+package com.example.wheatherapp.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -15,7 +15,5 @@ import io.reactivex.Single
 interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertCityWheather(city: CityEntity): Completable
-
-
+    fun insertCityWeather(city: CityEntity): Completable
 }

@@ -1,4 +1,4 @@
-package com.example.wheatherapp.database
+package com.example.wheatherapp.data.database
 
 import android.content.Context
 import androidx.room.Room

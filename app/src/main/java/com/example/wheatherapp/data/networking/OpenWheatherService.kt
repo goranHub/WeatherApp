@@ -1,7 +1,7 @@
-package com.example.wheatherapp.networking
+package com.example.wheatherapp.data.networking
 
-import com.example.wheatherapp.response.ResponseByCity
-import io.reactivex.Single
+import com.example.wheatherapp.data.response.ResponseByCity
+import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -38,6 +38,6 @@ interface OpenWheatherService {
     fun searchByCity(
         @Query("q") q: String,
         @Query("appid") appId: String = "5404e402bb177a821b6d24975ef60694"
-    ) : Single<ResponseByCity>
+    ) : Observable<ResponseByCity>
 
 }

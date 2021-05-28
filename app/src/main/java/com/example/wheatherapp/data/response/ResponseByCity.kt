@@ -1,4 +1,4 @@
-package com.example.wheatherapp.response
+package com.example.wheatherapp.data.response
 
 data class ResponseByCity(
     val base: String?,

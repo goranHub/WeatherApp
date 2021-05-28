@@ -1,4 +1,4 @@
-package com.example.wheatherapp.response
+package com.example.wheatherapp.data.response
 
 data class Coord(
     val lat: Double?,
