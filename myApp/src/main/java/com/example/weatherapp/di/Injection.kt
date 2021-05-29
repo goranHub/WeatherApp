@@ -20,8 +20,10 @@ import android.content.Context
 
 import com.example.weatherapp.data.database.WeatherDao
 import com.example.weatherapp.data.database.WeatherRoomDatabase
+import com.example.weatherapp.data.networking.WeatherAPi
+import com.example.weatherapp.domain.BindLocation
 import com.example.weatherapp.domain.Repository
-import com.example.weatherapp.ui.ViewModelFactory
+import com.example.weatherapp.ui.current.WeatherAdapter
 
 /**
  * Enables injection of data sources.
@@ -35,11 +37,16 @@ object Injection {
 
     fun provideRepository(context: Context): Repository {
         val dataSource = provideWeatherDao(context)
-        return Repository(dataSource)
+        return Repository(dataSource, WeatherAPi)
     }
 
-    fun provideViewModelFactory(context: Context): ViewModelFactory {
-        val dataSource = provideRepository(context)
-        return ViewModelFactory(dataSource)
+    fun provideAdapter() : WeatherAdapter {
+        return WeatherAdapter()
+    }
+
+
+    fun provideBindLocation() : BindLocation{
+        return BindLocation()
     }
 }
+

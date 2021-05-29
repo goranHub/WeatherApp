@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.example.weatherapp.domain.BindCurrentCityModel" />
+            type="com.example.weatherapp.data.response.Weather" />
 
     </data>
 
@@ -17,8 +17,9 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="@{data.weatherByCityModel.countryId}"
+            android:layout_height="wrap_content"
+            android:text="@{data.description}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

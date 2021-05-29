@@ -10,10 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface OpenWheatherService {
+interface OpenWeatherService {
 
     companion object{
-        fun create() : OpenWheatherService {
+        fun create() : OpenWeatherService {
 
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
@@ -29,7 +29,7 @@ interface OpenWheatherService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-            return retrofit.create(OpenWheatherService::class.java)
+            return retrofit.create(OpenWeatherService::class.java)
 
         }
     }
@@ -37,6 +37,14 @@ interface OpenWheatherService {
     @GET("data/2.5/weather")
     fun searchByCity(
         @Query("q") q: String,
+        @Query("appid") appId: String = "5404e402bb177a821b6d24975ef60694"
+    ) : Observable<ResponseByCity>
+
+
+    @GET("data/2.5/weather")
+    fun searchByLatLon(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
         @Query("appid") appId: String = "5404e402bb177a821b6d24975ef60694"
     ) : Observable<ResponseByCity>
 

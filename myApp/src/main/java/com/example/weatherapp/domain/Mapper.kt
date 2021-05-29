@@ -31,6 +31,8 @@ fun ResponseByCity.toModel(): WeatherByCityModel {
     val tempMax = main?.tempMax ?: 0.0
     val tempMin = main?.tempMin ?: 0.0
 
+    val name = name ?: ""
+
     val country = sys?.country ?: ""
     val countryId = sys?.id ?: 0
     val sunrise = sys?.sunrise ?: 0
@@ -52,7 +54,7 @@ fun ResponseByCity.toModel(): WeatherByCityModel {
     return WeatherByCityModel(
         base, all, cod,
         lat, lon, dt, id, feelsLike, grndLevel, humidity,
-        pressure, seaLevel, temp, tempMax, tempMin, country,
+        pressure, seaLevel, temp, tempMax, tempMin, name, country,
         countryId, sunrise, sunset, type, timezone, visibility, description,
         icon, weatherId, main, deg, gust, speed
     )
@@ -63,7 +65,7 @@ fun WeatherByCityModel.toEntity() : CityEntity {
     return CityEntity(
         base, all, cod,
         lat, lon, dt, id, feelsLike, grndLevel, humidity,
-        pressure, seaLevel, temp, tempMax, tempMin, country,
+        pressure, seaLevel, temp, tempMax, tempMin, name, country,
         countryId, sunrise, sunset, type, timezone, visibility, description,
         icon, weatherId, main, deg, gust, speed
     )

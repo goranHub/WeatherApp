@@ -25,6 +25,7 @@ data class CityEntity(
     var temp: Double,
     var tempMax: Double,
     var tempMin: Double,
+    var name: String,
     var country: String,
     var countryId: Int,
     var sunrise: Int,
