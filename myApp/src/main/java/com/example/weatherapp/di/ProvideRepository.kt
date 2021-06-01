@@ -1,8 +1,8 @@
 package com.example.weatherapp.di
 
+import com.example.weatherapp.data.database.DatabaseSource
 import com.example.weatherapp.data.database.WeatherDao
 import com.example.weatherapp.data.networking.NetworkDataSource
-import com.example.weatherapp.domain.MyLocationManager
 import com.example.weatherapp.domain.Repository
 import dagger.Module
 import dagger.Provides
@@ -21,11 +21,10 @@ object ProvideRepository {
     @Provides
     @Singleton
     fun provideRep(
-        weatherDao: WeatherDao,
-        weatherApi: NetworkDataSource,
-        myLocationManager: MyLocationManager
+        databdatabaseSource: DatabaseSource,
+        weatherApi: NetworkDataSource
     ): Repository {
 
-        return Repository(weatherDao, weatherApi, myLocationManager)
+        return Repository(databdatabaseSource, weatherApi)
     }
 }

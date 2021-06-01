@@ -1,6 +1,10 @@
 package com.example.weatherapp.ui.current
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -9,11 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
-import com.example.weatherapp.domain.MyLocationManager
-import com.example.weatherapp.domain.Repository
+import com.example.weatherapp.utils.hasPermission
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 
 /**
  * @author lllhr
@@ -25,12 +32,12 @@ class WeatherFragment : Fragment() {
     private lateinit var binding: FragmentWeatherBinding
     private val disposable = CompositeDisposable()
 
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(activity?.applicationContext)
+    }
 
-    @Inject
-    lateinit var adapter: WeatherAdapter
+    private var cancellationTokenSource = CancellationTokenSource()
 
-    @Inject
-    lateinit var myLocationManager: MyLocationManager
 
     private val viewModel: WeatherVM by viewModels()
 
@@ -45,26 +52,50 @@ class WeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentWeatherBinding.inflate(inflater)
-
-        adapter = WeatherAdapter()
-
-        adapter = WeatherAdapter()
-
-        viewModel.locationListFromDB()
-
+        binding.recyclerView.adapter = viewModel.adapter
         return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.menu_refresh) {
-            myLocationManager.startLocationUpdates()
+            requestCurrentLocation()
         }
         return super.onOptionsItemSelected(item)
     }
 
+
+    @SuppressLint("MissingPermission")
+    private fun requestCurrentLocation() {
+
+        if (activity?.applicationContext!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+            val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
+                LocationRequest.PRIORITY_HIGH_ACCURACY,
+                cancellationTokenSource.token
+            )
+
+            currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+                if (task.isSuccessful && task.result != null) {
+                    val location: Location = task.result
+                    //api call by current location
+                    viewModel.byLocation(
+                        location,
+                        disposable
+                    )
+                } else {
+                    val exception = task.exception
+                    if (exception != null) {
+                        Log.e("WeatherFragment", exception.localizedMessage)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onStop() {
         disposable.clear()
+        cancellationTokenSource.cancel()
         super.onStop()
     }
 
