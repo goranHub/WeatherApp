@@ -1,2 +1,14 @@
-rootProject.name = "WeatherApp"
-include ':myApp'
+
+include ':app'
+include ':data'
+include ':data:local'
+include ':data:repository'
+include ':data:remote'
+include ':data:model'
+include ':common'
+include ':features'
+include ':features:detail'
+include ':features:home'
+include ':navigation'
+include ':features:current'
+

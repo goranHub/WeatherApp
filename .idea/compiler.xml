@@ -11,7 +11,17 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="WeatherApp.app" target="11" />
+      <module name="WeatherApp.common" target="11" />
+      <module name="WeatherApp.data.local" target="11" />
+      <module name="WeatherApp.data.repository" target="11" />
+      <module name="WeatherApp.features.current" target="11" />
+      <module name="WeatherApp.features.detail" target="11" />
+      <module name="WeatherApp.features.home" target="11" />
+      <module name="WeatherApp.navigation" target="11" />
+      <module name="WeatherApp.util" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="DEPRECATION" value="false" />
