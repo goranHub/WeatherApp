@@ -1,33 +1,27 @@
 package com.example.weatherapp.ui.current
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import com.example.weatherapp.data.networking.WeatherAPi
-import com.example.weatherapp.di.Injection
-import com.example.weatherapp.domain.BindLocation
+import com.example.weatherapp.data.database.MyLocationEntity
 import com.example.weatherapp.domain.Repository
-import com.example.weatherapp.domain.toEntity
-import com.example.weatherapp.domain.toModel
+import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * @author lllhr
  * @date 5/28/2021
  */
-class WeatherVM(private val repository: Repository,
-                private val bindLocation: BindLocation,
-                private val adapter: WeatherAdapter,
-                ) : ViewModel() {
+
+class WeatherVM @ViewModelInject constructor(
+    private val repository: Repository,
+) : ViewModel() {
 
 
-    var longi = bindLocation.longi
-    var lati = bindLocation.lati
-
-
-    fun subscribeOnCurrentWeatherByCityNameFromApiAndSaveItIntoDb(disposable : CompositeDisposable)  {
+/*    fun byName(disposable: CompositeDisposable) {
         disposable.add(
             repository.observableCityEntity("zagreb")
                 .subscribeOn(Schedulers.io())
@@ -44,12 +38,10 @@ class WeatherVM(private val repository: Repository,
                     }
                 )
         )
-    }
+    }*/
 
 
-
-
-    fun subscribeOnCurrentWeatherByLocationFromApiAndSaveItIntoDb(disposable : CompositeDisposable)  {
+/*    fun byLocation(disposable : CompositeDisposable)  {
         disposable.add(
             repository.searchByCurrentLocation(lati, longi)
                 .subscribeOn(Schedulers.io())
@@ -57,7 +49,7 @@ class WeatherVM(private val repository: Repository,
                 .subscribe(
                     {
                         //add to DB
-                        //repository.weatherDao.insertCityWeather(it.toModel().toEntity())
+                        repository.weatherDao.insertCityWeather(it.toModel().toEntity())
                         //add to adapter
                         adapter.add(it.weather)
                     },
@@ -66,8 +58,36 @@ class WeatherVM(private val repository: Repository,
                     }
                 )
         )
+    }*/
+
+
+    fun locationListFromDB() {
+        repository
+            .getLocations()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<List<MyLocationEntity>> {
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onNext(locations: List<MyLocationEntity>) {
+                    for (location in locations) {
+                        Log.d(TAG, location.latitude.toString())
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                }
+
+                override fun onComplete() {
+                }
+            })
     }
 
+
+    fun startLocationUpdates() = repository.startLocationUpdates()
+
+    fun stopLocationUpdates() = repository.stopLocationUpdates()
 
     companion object {
         private val TAG = WeatherVM::class.java.simpleName

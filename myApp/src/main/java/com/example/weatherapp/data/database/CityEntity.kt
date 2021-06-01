@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
  * @author lllhr
  * @date 5/27/2021
  */
-@Entity
+@Entity(tableName = "my_city_table")
 data class CityEntity(
     @PrimaryKey(autoGenerate = false)
     var base: String,

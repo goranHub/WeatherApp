@@ -6,4 +6,5 @@ package com.example.weatherapp.utils
  */
 
 const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+const val BASE_URL = "https://api.openweathermap.org/"
 

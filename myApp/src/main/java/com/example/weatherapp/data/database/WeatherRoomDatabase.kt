@@ -16,7 +16,7 @@ object WeatherRoomDatabase {
             localDatabaseCopy
         } else {
             val localDatabase = Room.databaseBuilder(
-                context.applicationContext,
+                context,
                 WeatherDatabase::class.java, "weather_database"
             ).build()
             database = localDatabase

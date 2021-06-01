@@ -10,29 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface OpenWeatherService {
-
-    companion object{
-        fun create() : OpenWeatherService {
-
-            val logging = HttpLoggingInterceptor()
-            logging.level = HttpLoggingInterceptor.Level.BODY
-
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build()
-
-            val retrofit = Retrofit.Builder()
-                .baseUrl(WeatherAPi.API)
-                .client(client)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            return retrofit.create(OpenWeatherService::class.java)
-
-        }
-    }
+interface WeatherApi {
 
     @GET("data/2.5/weather")
     fun searchByCity(

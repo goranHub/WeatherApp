@@ -8,12 +8,13 @@ import com.example.weatherapp.BR
 import com.example.weatherapp.R
 import com.example.weatherapp.data.response.Weather
 import com.example.weatherapp.databinding.ItemCurrentCityWeatherBinding
+import javax.inject.Inject
 
 /**
  * @author lllhr
  * @date 5/28/2021
  */
-class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
+class WeatherAdapter @Inject constructor(): RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
     var list = mutableListOf<Weather>()
 
