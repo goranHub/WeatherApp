@@ -1,11 +1,10 @@
 package com.example.repository
 
 
-import com.example.model.response.ResponseByCity
 import com.example.local.database.CityEntity
-import com.example.local.database.DatabaseSource
 import com.example.local.database.MyLocationEntity
-import com.example.remote.NetworkDataSource
+import com.example.model.response.ResponseByCity
+import io.reactivex.Observable
 import java.util.concurrent.Executors
 
 /**
@@ -31,25 +30,25 @@ class Repository (
 
     //fun getLocation(id: UUID) = weatherDao.getLocation(id)
 
-    fun updateLocation(myLocationEntity: com.example.local.database.MyLocationEntity) {
+    fun updateLocation(myLocationEntity: MyLocationEntity) {
         executor.execute {
             databdatabaseSource.updateLocation(myLocationEntity)
         }
     }
 
-    fun addLocation(myLocationEntity: com.example.local.database.MyLocationEntity) {
+    fun addLocation(myLocationEntity: MyLocationEntity) {
         executor.execute {
             databdatabaseSource.addLocation(myLocationEntity)
         }
     }
 
-    fun insertCityWeather(cityEntity: com.example.local.database.CityEntity) {
+    fun insertCityWeather(cityEntity: CityEntity) {
         executor.execute {
             databdatabaseSource.insertCityWeather(cityEntity)
         }
     }
 
-    fun addLocations(myLocationEntities: List<com.example.local.database.MyLocationEntity>) {
+    fun addLocations(myLocationEntities: List<MyLocationEntity>) {
         executor.execute {
             databdatabaseSource.addLocations(myLocationEntities)
         }

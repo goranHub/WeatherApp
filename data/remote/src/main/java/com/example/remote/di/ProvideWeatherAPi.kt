@@ -1,16 +1,17 @@
 package com.example.remote.di
 
-import com.example.weatherapp.data.networking.WeatherApi
-import com.example.weatherapp.utils.BASE_URL
+import com.example.remote.WeatherApi
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import dagger.hilt.components.SingletonComponent
+import dagger.Module
+
 
 /**
  * @author ll4
@@ -18,7 +19,7 @@ import javax.inject.Singleton
  */
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object ProvideWeatherAPi {
 
     @Provides
@@ -43,3 +44,4 @@ object ProvideWeatherAPi {
     fun provideApiService(retrofit: Retrofit) = retrofit.create(WeatherApi::class.java)
 
 }
+const val BASE_URL = "https://api.openweathermap.org/"

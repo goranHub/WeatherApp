@@ -2,8 +2,18 @@ package com.example.current
 
 import android.location.Location
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-
+import com.example.common.base.BaseViewModel
+import com.example.common.toEntity
+import com.example.common.toModel
+import com.example.local.database.MyLocationEntity
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import com.example.repository.Repository
 
 /**
  * @author lllhr
@@ -13,9 +23,9 @@ import androidx.lifecycle.ViewModel
 private val TAG = WeatherVM::class.java.simpleName
 
 class WeatherVM @ViewModelInject constructor(
-    private val repository: com.example.repository.Repository,
+    private val repository: Repository,
     val adapter: WeatherAdapter
-) : ViewModel() {
+) : BaseViewModel() {
 
 
 /*    fun byName(disposable: CompositeDisposable) {
@@ -63,11 +73,11 @@ class WeatherVM @ViewModelInject constructor(
             .getLocations()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<com.example.local.database.MyLocationEntity>> {
+            .subscribe(object : Observer<List<MyLocationEntity>> {
                 override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(locations: List<com.example.local.database.MyLocationEntity>) {
+                override fun onNext(locations: List<MyLocationEntity>) {
                     for (location in locations) {
                         Log.d(TAG, location.latitude.toString())
                     }

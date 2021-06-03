@@ -3,11 +3,34 @@ plugins {
     id 'kotlin'
 }
 
+apply plugin: 'kotlin-kapt'
+
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.19"
+    implementation "com.github.akarnokd:rxjava3-bridge:3.0.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+    //Dagger - Hilt
+    def hilt_jetpack_version = "1.0.0-alpha02"
+    kapt "com.google.dagger:hilt-android-compiler:2.28.3-alpha"
+    implementation "com.google.dagger:hilt-android:2.31-alpha"
+
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+    implementation project(Modules.dataModel)
+
 }

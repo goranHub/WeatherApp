@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.common
 
 import com.example.model.model.WeatherByCityModel
 import com.example.model.response.ResponseByCity

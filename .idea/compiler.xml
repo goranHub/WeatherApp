@@ -11,8 +11,9 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
-    <bytecodeTargetLevel target="1.7">
+    <bytecodeTargetLevel target="1.8">
       <module name="WeatherApp.app" target="11" />
+      <module name="WeatherApp.buildSrc" target="11" />
       <module name="WeatherApp.common" target="11" />
       <module name="WeatherApp.data.local" target="11" />
       <module name="WeatherApp.data.repository" target="11" />

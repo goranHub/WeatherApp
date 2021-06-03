@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.model.model.Weather
-import com.example.weatherapp.BR
-import com.example.weatherapp.databinding.ItemCurrentCityWeatherBinding
+import com.example.current.databinding.ItemCurrentCityWeatherBinding
+import com.example.model.response.Weather
+import com.example.current.BR
 import javax.inject.Inject
 
 /**

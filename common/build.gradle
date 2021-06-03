@@ -1,7 +1,12 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+apply from: '../android_core.gradle'
+apply from: '../android_navigation.gradle'
+
+
+
 
 android {
     compileSdkVersion 30
@@ -33,14 +38,13 @@ android {
 }
 
 dependencies {
+    implementation project(Modules.dataModel)
+    implementation project(Modules.navigation)
+    implementation project(Modules.dataLocal)
+    //implementation project(path: ':data:local')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation project(path: ':data:model')
-    implementation project(path: ':data:local')
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation Libraries.hilt
+    kapt Libraries.hiltAndroidCompiler
+    kapt Libraries.hiltCompiler
+    implementation Libraries.hiltViewmodel
 }

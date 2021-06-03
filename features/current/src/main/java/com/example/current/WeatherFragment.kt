@@ -9,10 +9,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.weatherapp.databinding.FragmentWeatherBinding
+import com.example.common.base.BaseFragment
+import com.example.common.base.BaseViewModel
 import com.example.common.utils.hasPermission
+import com.example.current.databinding.FragmentWeatherBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -20,13 +21,14 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
+import com.example.current.R.menu.menu_refresh
 
 /**
  * @author lllhr
  * @date 5/28/2021
  */
 @AndroidEntryPoint
-class WeatherFragment : Fragment() {
+class WeatherFragment : BaseFragment() {
 
     private lateinit var binding: FragmentWeatherBinding
     private val disposable = CompositeDisposable()
@@ -40,6 +42,8 @@ class WeatherFragment : Fragment() {
 
     private val viewModel: WeatherVM by viewModels()
 
+    override fun getViewModel(): BaseViewModel = viewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -50,14 +54,14 @@ class WeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWeatherBinding.inflate(inflater)
+        binding = FragmentWeatherBinding.inflate(inflater, container, false)
         binding.recyclerView.adapter = viewModel.adapter
         return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        if (id == R.id.menu_refresh) {
+        if (id == menu_refresh) {
             requestCurrentLocation()
         }
         return super.onOptionsItemSelected(item)

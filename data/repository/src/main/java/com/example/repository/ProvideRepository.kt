@@ -1,11 +1,12 @@
 package com.example.repository
 
+
 import com.example.local.database.DatabaseSource
 import com.example.remote.NetworkDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -13,16 +14,16 @@ import javax.inject.Singleton
  * @date 6/1/2021
  */
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object ProvideRepository {
 
     @Provides
     @Singleton
     fun provideRep(
-        databdatabaseSource: com.example.local.database.DatabaseSource,
-        weatherApi: com.example.remote.NetworkDataSource
-    ): com.example.repository.Repository {
+        databdatabaseSource: DatabaseSource,
+        weatherApi: NetworkDataSource
+    ): Repository {
 
-        return com.example.repository.Repository(databdatabaseSource, weatherApi)
+        return Repository(databdatabaseSource, weatherApi)
     }
 }
