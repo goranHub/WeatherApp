@@ -5,9 +5,14 @@ package com.example.weatherapp.utils
  * @date 5/31/2021
  */
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 
 
 fun Context.hasPermission(permission: String): Boolean {
@@ -22,3 +27,17 @@ fun Context.hasPermission(permission: String): Boolean {
             PackageManager.PERMISSION_GRANTED
 }
 
+@RequiresApi(Build.VERSION_CODES.M)
+fun Fragment.requestPermissionWithRationale(
+    permission: String,
+    requestCode: Int,
+    snackbar: Snackbar
+) {
+    val provideRationale = shouldShowRequestPermissionRationale(permission)
+
+    if (provideRationale) {
+        snackbar.show()
+    } else {
+        requestPermissions(arrayOf(permission), requestCode)
+    }
+}

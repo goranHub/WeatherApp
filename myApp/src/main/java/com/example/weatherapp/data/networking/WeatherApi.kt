@@ -15,15 +15,24 @@ interface WeatherApi {
     @GET("data/2.5/weather")
     fun searchByCity(
         @Query("q") q: String,
-        @Query("appid") appId: String = "5404e402bb177a821b6d24975ef60694"
+        @Query("appid") appId: String
     ) : Observable<ResponseByCity>
+
+
+    @GET("data/2.5/find")
+    fun search(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("units") units : String = "metric",
+        @Query("appid") appId: String
+    ) : Observable<ResponseByCity>
+
 
 
     @GET("data/2.5/weather")
     fun searchByLatLon(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("appid") appId: String = "5404e402bb177a821b6d24975ef60694"
+        @Query("appid") appId: String
     ) : Observable<ResponseByCity>
-
 }

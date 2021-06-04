@@ -3,22 +3,27 @@ package com.example.weatherapp.ui.current
 import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
+import com.example.weatherapp.utils.REQUEST_FINE_LOCATION_PERMISSIONS_REQUEST_CODE
 import com.example.weatherapp.utils.hasPermission
+import com.example.weatherapp.utils.requestPermissionWithRationale
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 
@@ -59,14 +64,45 @@ class WeatherFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.menu_refresh) {
-            requestCurrentLocation()
+            locationRequestOnClick()
         }
         return super.onOptionsItemSelected(item)
     }
 
 
+
+
+    private fun locationRequestOnClick() {
+        val permissionApproved =
+            activity?.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+
+        if (permissionApproved == true) {
+            requestCurrentLocation()
+        } else {
+            requestPermissionWithRationale(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                REQUEST_FINE_LOCATION_PERMISSIONS_REQUEST_CODE,
+                fineLocationRationalSnackbar
+            )
+        }
+    }
+
+    private val fineLocationRationalSnackbar by lazy {
+        Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            R.string.fine_location_permission_rationale,
+            Snackbar.LENGTH_LONG
+        ).setAction(R.string.ok) {
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_FINE_LOCATION_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
+
     @SuppressLint("MissingPermission")
     private fun requestCurrentLocation() {
+
 
         if (activity?.applicationContext!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
 

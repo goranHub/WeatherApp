@@ -4,18 +4,17 @@ import android.location.Location
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide
 import com.example.weatherapp.data.database.MyLocationEntity
-import com.example.weatherapp.data.database.WeatherDao
 import com.example.weatherapp.domain.Repository
 import com.example.weatherapp.domain.toEntity
 import com.example.weatherapp.domain.toModel
-import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
+
 
 /**
  * @author lllhr
@@ -56,11 +55,15 @@ class WeatherVM @ViewModelInject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {
+                    { responseByCity ->
                         //add to DB
-                        repository.insertCityWeather(it.toModel().toEntity())
+                        repository.insertCityWeather(responseByCity.toModel().toEntity())
                         //add to adapter
-                        adapter.add(it.weather)
+
+                        val bindResponseByCity = BindResponse(responseByCity)
+
+
+                        adapter.add(bindResponseByCity)
                     },
                     { error ->
                         Log.e(TAG, "Unable to get CityWeather ", error)

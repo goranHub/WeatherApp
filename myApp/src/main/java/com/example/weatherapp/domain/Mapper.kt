@@ -16,40 +16,40 @@ fun ResponseByCity.toModel(): WeatherByCityModel {
     val all = clouds?.all ?: 0
     val cod = cod ?: 0
 
-    val lat = coord?.lat ?: 0.0
-    val lon = coord?.lon ?: 0.0
+    val lat = coord?.lat.toString() ?: "0.0"
+    val lon = coord?.lon.toString() ?: "0.0"
 
     val dt = dt ?: 0
     val id = id ?: 0
 
-    val feelsLike = main?.feelsLike ?: 0.0
-    val grndLevel = main?.grndLevel ?: 0
-    val humidity = main?.humidity ?: 0
-    val pressure = main?.pressure ?: 0
-    val seaLevel = main?.seaLevel ?: 0
-    val temp = main?.temp ?: 0.0
-    val tempMax = main?.tempMax ?: 0.0
-    val tempMin = main?.tempMin ?: 0.0
+    val feelsLike = main?.feelsLike.toString() ?: "0.0"
+    val grndLevel = main?.grndLevel.toString() ?: "0"
+    val humidity = main?.humidity.toString() ?: "0"
+    val pressure = main?.pressure.toString() ?: "0"
+    val seaLevel = main?.seaLevel.toString() ?: "0"
+    val temp = main?.temp.toString() ?: "0.0"
+    val tempMax = main?.tempMax.toString() ?: "0.0"
+    val tempMin = main?.tempMin.toString() ?: "0.0"
 
     val name = name ?: ""
 
     val country = sys?.country ?: ""
-    val countryId = sys?.id ?: 0
-    val sunrise = sys?.sunrise ?: 0
-    val sunset = sys?.sunset ?: 0
-    val type = sys?.type ?: 0
+    val countryId = sys?.id.toString() ?: "0"
+    val sunrise = sys?.sunrise.toString() ?: "0"
+    val sunset = sys?.sunset.toString() ?: "0"
+    val type = sys?.type.toString() ?: "0"
 
-    val timezone = timezone ?: 0
-    val visibility = visibility ?: 0
+    val timezone = timezone.toString() ?: "0"
+    val visibility = visibility.toString() ?: "0"
 
     val description = weather?.first()?.description ?: ""
     val icon = weather?.first()?.icon ?: ""
-    val weatherId = weather?.first()?.id ?: 0
+    val weatherId = weather?.first()?.id.toString() ?: "0"
     val main = weather?.first()?.main ?: ""
 
-    val deg = wind?.deg ?: 0
-    val gust = wind?.gust ?: 0.0
-    val speed = wind?.speed ?: 0.0
+    val deg = wind?.deg.toString() ?: "0"
+    val gust = wind?.gust.toString() ?: "0.0"
+    val speed = wind?.speed.toString() ?: "0.0"
 
     return WeatherByCityModel(
         base, all, cod,

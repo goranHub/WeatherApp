@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="fine_location_permission_rationale">The fine location permission is needed for core functionality.</string>
+    <string name="ok">ok</string>
 
 </resources>
