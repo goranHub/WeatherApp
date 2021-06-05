@@ -6,23 +6,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.BR
 import com.example.weatherapp.R
-import com.example.weatherapp.data.model.WeatherByCityModel
-import com.example.weatherapp.databinding.ItemCurrentCityWeatherBinding
+import com.example.weatherapp.databinding.ItemByLocationBinding
 import javax.inject.Inject
 
 /**
  * @author lllhr
  * @date 5/28/2021
  */
-class WeatherAdapter @Inject constructor() :
-    RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
+class ByLocationAdapter @Inject constructor() :
+    RecyclerView.Adapter<ByLocationAdapter.WeatherViewHolder>() {
 
     var list = mutableListOf<BindResponse>()
 
-    lateinit var binding: ItemCurrentCityWeatherBinding
+    lateinit var binding: ItemByLocationBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_current_city_weather, parent, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_by_location, parent, false)
         return WeatherViewHolder(binding)
     }
 
@@ -31,9 +30,7 @@ class WeatherAdapter @Inject constructor() :
         holder.bind(dataModel)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount() = list.size
 
     fun add(newList: BindResponse) {
         list.clear()
@@ -41,7 +38,7 @@ class WeatherAdapter @Inject constructor() :
         notifyDataSetChanged()
     }
 
-    class WeatherViewHolder(private val binding: ItemCurrentCityWeatherBinding) :
+    class WeatherViewHolder(private val binding: ItemByLocationBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(obj: Any?) {
             binding.setVariable(BR.weather, obj)

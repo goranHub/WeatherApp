@@ -1,6 +1,6 @@
 package com.example.weatherapp.data.model
 
-data class WeatherByCityModel(
+data class ByIdModel(
     var base: String,
     var all: Int,
     var cod: Int,

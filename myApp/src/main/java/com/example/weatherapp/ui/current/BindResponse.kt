@@ -2,16 +2,16 @@ package com.example.weatherapp.ui.current
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import com.example.weatherapp.data.model.WeatherByCityModel
-import com.example.weatherapp.data.response.ResponseByCity
+import com.example.weatherapp.data.model.ByLocationModel
+import com.example.weatherapp.data.responseByLocation.ResponseByLocation
 import com.example.weatherapp.domain.toModel
 import kotlin.properties.Delegates
 import com.example.weatherapp.BR
 
-class BindResponse(val responseByCity: ResponseByCity?) : BaseObservable() {
+class BindResponse(val responseByCity: ResponseByLocation?) : BaseObservable() {
 
     var iconUrl : String
-    lateinit var bindModel : WeatherByCityModel
+    lateinit var bindModel : ByLocationModel
 
     @get:Bindable
     var imageUrl  by Delegates.observable("") { _, _, _ -> notifyPropertyChanged(BR.imageUrl) }

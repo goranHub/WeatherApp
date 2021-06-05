@@ -3,9 +3,9 @@ package com.example.weatherapp.domain
 import com.example.weatherapp.data.database.CityEntity
 import com.example.weatherapp.data.database.DatabaseSource
 import com.example.weatherapp.data.database.MyLocationEntity
-import com.example.weatherapp.data.database.WeatherDao
 import com.example.weatherapp.data.networking.NetworkDataSource
-import com.example.weatherapp.data.response.ResponseByCity
+import com.example.weatherapp.data.responseById.ResponseById
+import com.example.weatherapp.data.responseByLocation.ResponseByLocation
 import io.reactivex.Observable
 import java.util.concurrent.Executors
 
@@ -20,12 +20,16 @@ class Repository (
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    fun searchByCurrentLocation(lati : Double, longi: Double): Observable<ResponseByCity> {
+    fun searchByCurrentLocation(lati : Double, longi: Double): Observable<ResponseByLocation> {
         return weatherApi.searchByCurrentLocation(lati, longi)
     }
 
-    fun observableCityEntity(name : String): Observable<ResponseByCity> {
+    fun searchByCity(name : String): Observable<ResponseByLocation> {
         return weatherApi.searchByCity(name)
+    }
+
+    fun searchWithID(id : String): Observable<ResponseById> {
+        return weatherApi.searchWithID(id)
     }
 
     fun getLocations() = databdatabaseSource.getLocations()

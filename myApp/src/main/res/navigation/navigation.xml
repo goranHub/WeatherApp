@@ -8,6 +8,6 @@
 
     <fragment
         android:id="@+id/weatherFragment"
-        android:name="com.example.weatherapp.ui.current.WeatherFragment"
+        android:name="com.example.weatherapp.ui.weather.WeatherFragment"
         android:label="WeatherFragment" />
 </navigation>

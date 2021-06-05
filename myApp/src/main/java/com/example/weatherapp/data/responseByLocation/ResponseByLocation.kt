@@ -1,6 +1,6 @@
-package com.example.weatherapp.data.response
+package com.example.weatherapp.data.responseByLocation
 
-data class ResponseByCity(
+data class ResponseByLocation(
     val base: String?,
     val clouds: Clouds?,
     val cod: Int?,

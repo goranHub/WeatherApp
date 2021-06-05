@@ -1,8 +1,8 @@
 package com.example.weatherapp.domain
 
 import com.example.weatherapp.data.database.CityEntity
-import com.example.weatherapp.data.model.WeatherByCityModel
-import com.example.weatherapp.data.response.ResponseByCity
+import com.example.weatherapp.data.model.ByLocationModel
+import com.example.weatherapp.data.responseByLocation.ResponseByLocation
 
 /**
  * @author lllhr
@@ -10,7 +10,7 @@ import com.example.weatherapp.data.response.ResponseByCity
  */
 
 
-fun ResponseByCity.toModel(): WeatherByCityModel {
+fun ResponseByLocation.toModel(): ByLocationModel {
 
     val base = base ?: ""
     val all = clouds?.all ?: 0
@@ -51,7 +51,7 @@ fun ResponseByCity.toModel(): WeatherByCityModel {
     val gust = wind?.gust.toString() ?: "0.0"
     val speed = wind?.speed.toString() ?: "0.0"
 
-    return WeatherByCityModel(
+    return ByLocationModel(
         base, all, cod,
         lat, lon, dt, id, feelsLike, grndLevel, humidity,
         pressure, seaLevel, temp, tempMax, tempMin, name, country,
@@ -60,7 +60,7 @@ fun ResponseByCity.toModel(): WeatherByCityModel {
     )
 }
 
-fun WeatherByCityModel.toEntity() : CityEntity {
+fun ByLocationModel.toEntity() : CityEntity {
 
     return CityEntity(
         base, all, cod,

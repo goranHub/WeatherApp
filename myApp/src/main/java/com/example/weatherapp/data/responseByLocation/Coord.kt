@@ -1,4 +1,4 @@
-package com.example.weatherapp.data.response
+package com.example.weatherapp.data.responseByLocation
 
 data class Coord(
     val lat: Double?,

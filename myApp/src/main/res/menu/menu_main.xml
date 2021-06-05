@@ -4,5 +4,11 @@
         android:id="@+id/menu_refresh"
         android:icon="@drawable/baseline_refresh_black_24dp"
         app:showAsAction="always"
-        android:title="TODO" />
+        android:title="refresh" />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_magnify_white_24dp"
+        android:title="@string/action_search"
+        app:showAsAction="always" />
 </menu>
