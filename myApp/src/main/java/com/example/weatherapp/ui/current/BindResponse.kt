@@ -18,6 +18,7 @@ class BindResponse(val responseByCity: ResponseByLocation?) : BaseObservable() {
 
     init {
         val icon = responseByCity?.weather?.get(0)?.icon
+        //for glide
         iconUrl = "http://openweathermap.org/img/w/$icon.png"
 
         if (responseByCity != null) {
@@ -32,5 +33,5 @@ class BindResponse(val responseByCity: ResponseByLocation?) : BaseObservable() {
         imageUrl = iconUrl
     }
 
-    fun Double.format(digits: Int) = "%.${digits}f".format(this)
+    private fun Double.format(digits: Int) = "%.${digits}f".format(this)
 }

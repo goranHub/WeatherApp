@@ -9,7 +9,7 @@ import com.example.weatherapp.domain.toEntity
 import com.example.weatherapp.domain.toModel
 import com.example.weatherapp.ui.current.BindResponse
 import com.example.weatherapp.ui.current.ByLocationAdapter
-import com.example.weatherapp.ui.search.BindByIdResponse
+import com.example.weatherapp.ui.search.BindForecast
 import com.example.weatherapp.ui.search.DayAdapter
 import com.example.weatherapp.ui.search.HourAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -111,16 +111,22 @@ class WeatherVM @ViewModelInject constructor(
         )
     }
 
-    fun byId(id :Int, disposable: CompositeDisposable){
+    private fun byId(id: Int, disposable: CompositeDisposable) {
         disposable.add(
             repository.searchWithID(id.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {
-                        val bindResponseByCity = BindByIdResponse(it)
-                        hourAdapter.add(bindResponseByCity)
+                    { response ->
+
+
+                        val bindForcast = BindForecast(response.allForecast)
+                        hourAdapter.add(bindForcast)
+
+
+
                         //dayAdapter.add(bindResponseByCity)
+
                     },
                     { error ->
                         Log.e(TAG, "searchWithID", error)
@@ -128,7 +134,5 @@ class WeatherVM @ViewModelInject constructor(
                 )
         )
     }
-
-
 }
 

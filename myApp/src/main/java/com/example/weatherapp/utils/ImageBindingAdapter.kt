@@ -43,7 +43,16 @@ object ImageBindingAdapter {
 
 
 
-
+object ImageBindingAdapterDetails {
+    @JvmStatic
+    @BindingAdapter("loadImageDetails")
+    fun loadImageDetails(view: ImageView, profileImage: String?) {
+        Glide.with(view.context)
+            .load(profileImage)
+            .fitCenter()
+            .into(view)
+    }
+}
 
 
 

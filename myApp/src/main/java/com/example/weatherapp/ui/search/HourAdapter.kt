@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.BR
 import com.example.weatherapp.R
+import com.example.weatherapp.data.responseById.Forecast
 import com.example.weatherapp.databinding.ItemHourBinding
 import javax.inject.Inject
 
@@ -16,45 +17,52 @@ import javax.inject.Inject
 class HourAdapter @Inject constructor() :
     RecyclerView.Adapter<HourAdapter.HourViewHolder>() {
 
-    var list = mutableListOf<BindByIdResponse>()
-
+    var list = mutableListOf<Forecast>()
+    lateinit var bindFore: BindForecast
     lateinit var binding: ItemHourBinding
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourViewHolder {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_hour, parent, false)
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.item_hour,
+            parent,
+            false
+        )
         return HourViewHolder(binding)
     }
 
+
     override fun getItemCount() = list.size
 
-    fun add(newList: BindByIdResponse) {
-        list.clear()
-        list.add(newList)
+
+
+    fun add(bindForecast: BindForecast) {
+        list.addAll(bindForecast.forecastList)
+        bindFore = bindForecast
         notifyDataSetChanged()
     }
 
+
     override fun onBindViewHolder(holder: HourViewHolder, position: Int) {
-
         val model = list[position]
-        val forecastList = model.responseById.list[position]
+        holder.bindForecast(model)
 
-        holder.bind(model)
-        holder.bindForecastList(forecastList)
+        holder.bind(bindFore)
     }
 
 
-    class HourViewHolder(private val binding: ItemHourBinding) : RecyclerView.ViewHolder(binding.root) {
+    class HourViewHolder(private val binding: ItemHourBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(obj: Any?) {
-            binding.setVariable(BR.weather, obj)
+            binding.setVariable(BR.bind, obj)
             binding.executePendingBindings()
         }
 
-        fun bindForecastList(obj: Any?) {
-            binding.setVariable(BR.forecastList, obj)
+        fun bindForecast(obj: Any?) {
+            binding.setVariable(BR.forecast, obj)
             binding.executePendingBindings()
         }
-
     }
-
 }

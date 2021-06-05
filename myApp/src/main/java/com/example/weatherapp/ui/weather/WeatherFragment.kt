@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
 import com.example.weatherapp.ui.search.SearchDialog
@@ -59,8 +60,14 @@ class WeatherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentWeatherBinding.inflate(inflater)
-        binding.locationList.adapter = viewModel.byLocationAdapter
-        binding.hourList.adapter = viewModel.hourAdapter
+
+        binding.apply {
+            locationList.adapter = viewModel.byLocationAdapter
+            hourList.adapter = viewModel.hourAdapter
+            hourList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+
+
         return binding.root
     }
 
