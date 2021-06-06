@@ -9,9 +9,11 @@ import com.example.weatherapp.domain.toEntity
 import com.example.weatherapp.domain.toModel
 import com.example.weatherapp.ui.current.BindResponse
 import com.example.weatherapp.ui.current.ByLocationAdapter
-import com.example.weatherapp.ui.search.BindForecast
+import com.example.weatherapp.ui.search.BindForecastDay
+import com.example.weatherapp.ui.search.BindForecastHour
 import com.example.weatherapp.ui.search.DayAdapter
 import com.example.weatherapp.ui.search.HourAdapter
+import com.example.weatherapp.utils.getEveryEightyElementFromList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -101,8 +103,9 @@ class WeatherVM @ViewModelInject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {
-                        it.id?.let { it1 -> byId(it1, disposable) }
+                    { response ->
+                        if (response.id == null) return@subscribe
+                         byId(response.id, disposable)
                     },
                     { error ->
                         Log.e(TAG, "searchByCity", error)
@@ -119,13 +122,16 @@ class WeatherVM @ViewModelInject constructor(
                 .subscribe(
                     { response ->
 
+                        response.allForecast.subList(0,9).map {
+                            hourAdapter.add(BindForecastHour(it.toModel()))
+                        }
 
-                        val bindForcast = BindForecast(response.allForecast)
-                        hourAdapter.add(bindForcast)
 
+                        val res = getEveryEightyElementFromList(response.allForecast)
+                        res.map {
+                            dayAdapter.add(BindForecastDay(it.toModel()))
+                        }
 
-
-                        //dayAdapter.add(bindResponseByCity)
 
                     },
                     { error ->

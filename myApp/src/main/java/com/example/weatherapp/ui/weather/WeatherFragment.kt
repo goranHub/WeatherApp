@@ -65,8 +65,9 @@ class WeatherFragment : Fragment() {
             locationList.adapter = viewModel.byLocationAdapter
             hourList.adapter = viewModel.hourAdapter
             hourList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            daysList.adapter = viewModel.dayAdapter
+            daysList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
-
 
         return binding.root
     }

@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.BR
 import com.example.weatherapp.R
-import com.example.weatherapp.data.responseById.Forecast
 import com.example.weatherapp.databinding.ItemHourBinding
 import javax.inject.Inject
 
@@ -17,8 +16,7 @@ import javax.inject.Inject
 class HourAdapter @Inject constructor() :
     RecyclerView.Adapter<HourAdapter.HourViewHolder>() {
 
-    var list = mutableListOf<Forecast>()
-    lateinit var bindFore: BindForecast
+    var list = mutableListOf<BindForecastHour>()
     lateinit var binding: ItemHourBinding
 
 
@@ -31,24 +29,19 @@ class HourAdapter @Inject constructor() :
         )
         return HourViewHolder(binding)
     }
-
-
     override fun getItemCount() = list.size
 
-
-
-    fun add(bindForecast: BindForecast) {
-        list.addAll(bindForecast.forecastList)
-        bindFore = bindForecast
+    fun add(bindForecast: BindForecastHour) {
+        if(list.size > 8){
+            list.clear()
+        }
+        list.add(bindForecast)
         notifyDataSetChanged()
     }
 
-
     override fun onBindViewHolder(holder: HourViewHolder, position: Int) {
         val model = list[position]
-        holder.bindForecast(model)
-
-        holder.bind(bindFore)
+        holder.bind(model)
     }
 
 
@@ -56,13 +49,9 @@ class HourAdapter @Inject constructor() :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(obj: Any?) {
-            binding.setVariable(BR.bind, obj)
+            binding.setVariable(BR.bindHour, obj)
             binding.executePendingBindings()
         }
 
-        fun bindForecast(obj: Any?) {
-            binding.setVariable(BR.forecast, obj)
-            binding.executePendingBindings()
-        }
     }
 }

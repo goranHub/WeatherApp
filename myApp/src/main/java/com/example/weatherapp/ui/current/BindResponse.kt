@@ -7,6 +7,7 @@ import com.example.weatherapp.data.responseByLocation.ResponseByLocation
 import com.example.weatherapp.domain.toModel
 import kotlin.properties.Delegates
 import com.example.weatherapp.BR
+import com.example.weatherapp.utils.format
 
 class BindResponse(val responseByCity: ResponseByLocation?) : BaseObservable() {
 
@@ -33,5 +34,5 @@ class BindResponse(val responseByCity: ResponseByLocation?) : BaseObservable() {
         imageUrl = iconUrl
     }
 
-    private fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
 }

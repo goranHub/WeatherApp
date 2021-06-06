@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="weather"
+            name="bindLocation"
             type="com.example.weatherapp.ui.current.BindResponse" />
     </data>
 
@@ -39,7 +39,7 @@
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{weather.bindModel.name}"
+                android:text="@{bindLocation.bindModel.name}"
                 app:layout_constraintBottom_toTopOf="@+id/description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +52,7 @@
                 android:layout_marginBottom="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{weather.bindModel.description}"
+                android:text="@{bindLocation.bindModel.description}"
                 app:layout_constraintBottom_toTopOf="@+id/pressure"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="description" />
@@ -64,7 +64,7 @@
                 android:layout_marginBottom="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{weather.bindModel.pressure}"
+                android:text="@{bindLocation.bindModel.pressure}"
                 app:layout_constraintBottom_toTopOf="@+id/humidity"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 tools:text="pressure" />
@@ -76,7 +76,7 @@
                 android:layout_marginBottom="4dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{weather.bindModel.humidity}"
+                android:text="@{bindLocation.bindModel.humidity}"
                 app:layout_constraintBottom_toTopOf="@+id/windspeed"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
                 tools:text="humidity" />
@@ -88,7 +88,7 @@
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{weather.bindModel.speed}"
+                android:text="@{bindLocation.bindModel.speed}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 tools:text="windspeed" />
@@ -105,7 +105,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/temperature"
                 app:layout_constraintTop_toTopOf="parent"
-                app:loadImage="@{weather.imageUrl}"
+                app:loadImage="@{bindLocation.imageUrl}"
                 tools:src="@drawable/sun" />
 
             <TextView
@@ -113,8 +113,7 @@
                 style="@style/CustomStyle.Text.Header"
                 android:layout_gravity="center"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:text="@{weather.bindModel.temp}"
+                android:text="@{bindLocation.bindModel.temp}"
                 app:layout_constraintEnd_toStartOf="@+id/textView"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="+22" />

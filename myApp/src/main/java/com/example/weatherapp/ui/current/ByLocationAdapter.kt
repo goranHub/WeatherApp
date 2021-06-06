@@ -41,7 +41,7 @@ class ByLocationAdapter @Inject constructor() :
     class WeatherViewHolder(private val binding: ItemByLocationBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(obj: Any?) {
-            binding.setVariable(BR.weather, obj)
+            binding.setVariable(BR.bindLocation, obj)
             binding.executePendingBindings()
         }
     }

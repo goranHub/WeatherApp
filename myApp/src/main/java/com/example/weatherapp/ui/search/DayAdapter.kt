@@ -16,7 +16,7 @@ import javax.inject.Inject
 class DayAdapter @Inject constructor() :
     RecyclerView.Adapter<DayAdapter.WeatherViewHolder>() {
 
-    var list = mutableListOf<BindForecast>()
+    var list = mutableListOf<BindForecastDay>()
 
     lateinit var binding: ItemDayBinding
 
@@ -32,8 +32,10 @@ class DayAdapter @Inject constructor() :
 
     override fun getItemCount() = list.size
 
-    fun add(newList: BindForecast) {
-        list.clear()
+    fun add(newList: BindForecastDay) {
+      /*  if(list.size > 6){
+            list.clear()
+        }*/
         list.add(newList)
         notifyDataSetChanged()
     }
@@ -41,7 +43,7 @@ class DayAdapter @Inject constructor() :
     class WeatherViewHolder(private val binding: ItemDayBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(obj: Any?) {
-            binding.setVariable(BR.weather, obj)
+            binding.setVariable(BR.bindDay, obj)
             binding.executePendingBindings()
         }
     }
