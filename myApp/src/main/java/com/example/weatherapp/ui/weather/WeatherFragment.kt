@@ -58,7 +58,6 @@ class WeatherFragment : Fragment() {
         binding.tvDaysTitle.visibility = View.GONE
         binding.tvHourTitle.visibility = View.GONE
         binding.locationList.visibility = View.GONE
-        binding.gpsStatusTextView.visibility = View.GONE
 
         binding.apply {
             locationList.adapter = viewModel.byLocationAdapter
@@ -88,6 +87,7 @@ class WeatherFragment : Fragment() {
         GpsListener(requireActivity().applicationContext).observe(viewLifecycleOwner, { status ->
             when (status) {
                 is GpsStatus.Disabled -> {
+                    binding.locationList.visibility = View.GONE
                     binding.gpsStatusTextView.visibility = View.VISIBLE
                     binding.gpsStatusTextView.apply {
                         text = getString(status.message)
