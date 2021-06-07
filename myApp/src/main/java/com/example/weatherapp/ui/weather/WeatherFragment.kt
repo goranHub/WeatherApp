@@ -1,30 +1,24 @@
 package com.example.weatherapp.ui.weather
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.location.Location
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.MainActivity
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentWeatherBinding
 import com.example.weatherapp.ui.search.SearchDialog
-import com.example.weatherapp.utils.REQUEST_FINE_LOCATION_PERMISSIONS_REQUEST_CODE
-import com.example.weatherapp.utils.hasPermission
-import com.example.weatherapp.utils.requestPermissionWithRationale
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
+import com.example.weatherapp.utils.GpsStatus
+import com.example.weatherapp.utils.GpsListener
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
+
 
 /**
  * @author lllhr
@@ -37,10 +31,6 @@ class WeatherFragment : Fragment() {
     lateinit var searchDialog: SearchDialog
     private val disposable = CompositeDisposable()
 
-    private val fusedLocationClient by lazy {
-        LocationServices.getFusedLocationProviderClient(activity?.applicationContext)
-    }
-    private var cancellationTokenSource = CancellationTokenSource()
     private val viewModel: WeatherVM by viewModels()
 
 
@@ -48,9 +38,13 @@ class WeatherFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        searchDialog = SearchDialog{ it->
-            Log.d("tago", it)
-            viewModel.byCityName(it, disposable)
+        searchDialog = SearchDialog(
+            { it ->
+                viewModel.byCityName(it, disposable)
+            })
+        {   //onSearchClickShowTextView
+            binding.tvDaysTitle.visibility = View.VISIBLE
+            binding.tvHourTitle.visibility = View.VISIBLE
         }
     }
 
@@ -59,22 +53,29 @@ class WeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentWeatherBinding.inflate(inflater)
+        binding.tvDaysTitle.visibility = View.GONE
+        binding.tvHourTitle.visibility = View.GONE
+        binding.locationList.visibility = View.GONE
+        binding.gpsStatusTextView.visibility = View.GONE
 
         binding.apply {
             locationList.adapter = viewModel.byLocationAdapter
             hourList.adapter = viewModel.hourAdapter
-            hourList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            hourList.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             daysList.adapter = viewModel.dayAdapter
-            daysList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            daysList.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
-
         return binding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.menu_refresh) {
+            subscribeToGpsListener()
             locationRequestOnClick()
         }
         if (id == R.id.action_search) {
@@ -83,59 +84,37 @@ class WeatherFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun locationRequestOnClick() {
-        val permissionApproved =
-            activity?.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-
-        if (permissionApproved == true) {
-            requestCurrentLocation()
-        } else {
-            requestPermissionWithRationale(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                REQUEST_FINE_LOCATION_PERMISSIONS_REQUEST_CODE,
-                fineLocationRationalSnackbar
-            )
-        }
-    }
-
-    private val fineLocationRationalSnackbar by lazy {
-        Snackbar.make(
-            requireActivity().findViewById(android.R.id.content),
-            R.string.fine_location_permission_rationale,
-            Snackbar.LENGTH_LONG
-        ).setAction(R.string.ok) {
-            requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_FINE_LOCATION_PERMISSIONS_REQUEST_CODE
-            )
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun requestCurrentLocation() {
-        if (activity?.applicationContext!!.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
-                LocationRequest.PRIORITY_HIGH_ACCURACY,
-                cancellationTokenSource.token
-            )
-            currentLocationTask.addOnCompleteListener { task: Task<Location> ->
-                if (task.isSuccessful && task.result != null) {
-                    val location: Location = task.result
-                    //api call by current location
-                    viewModel.byLocation(location, disposable)
-                } else {
-                    val exception = task.exception
-                    if (exception != null) {
-                        Log.e("WeatherFragment", exception.localizedMessage)
+    private fun subscribeToGpsListener() {
+        GpsListener(requireActivity().applicationContext).observe(viewLifecycleOwner, { status ->
+            when (status) {
+                is GpsStatus.Disabled -> {
+                    binding.gpsStatusTextView.visibility = View.VISIBLE
+                    binding.gpsStatusTextView.apply {
+                        text = getString(status.message)
+                        setTextColor(Color.RED)
                     }
                 }
+                is GpsStatus.Enabled -> {
+                    binding.gpsStatusTextView.visibility = View.GONE
+                    binding.locationList.visibility = View.VISIBLE
+                }
             }
-        }
+        })
     }
+
+    private fun locationRequestOnClick() {
+        (activity as MainActivity).requestCurrentLocation({ location ->
+            viewModel.byLocation(location, disposable)
+        },
+            {
+                Toast.makeText(requireActivity(), "Turn on location", Toast.LENGTH_LONG).show();
+            })
+    }
+
 
     override fun onStop() {
         disposable.clear()
-        cancellationTokenSource.cancel()
         super.onStop()
     }
+
 }

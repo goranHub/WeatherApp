@@ -33,9 +33,9 @@ class DayAdapter @Inject constructor() :
     override fun getItemCount() = list.size
 
     fun add(newList: BindForecastDay) {
-      /*  if(list.size > 6){
+        if(list.size > 4){
             list.clear()
-        }*/
+        }
         list.add(newList)
         notifyDataSetChanged()
     }

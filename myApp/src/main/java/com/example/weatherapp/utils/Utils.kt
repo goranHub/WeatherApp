@@ -6,6 +6,7 @@ package com.example.weatherapp.utils
  */
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
@@ -34,7 +35,7 @@ fun Context.hasPermission(permission: String): Boolean {
 }
 
 @RequiresApi(Build.VERSION_CODES.M)
-fun Fragment.requestPermissionWithRationale(
+fun Activity.requestPermissionWithRationale(
     permission: String,
     requestCode: Int,
     snackbar: Snackbar

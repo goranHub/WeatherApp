@@ -14,7 +14,7 @@ import com.example.weatherapp.R
  * @author ll4
  * @date 5/15/2021
  */
-class SearchDialog(private val onSearchChange: (String) -> Unit) : DialogFragment() {
+class SearchDialog(private val onSearchChange: (String) -> Unit, val onSearchClickShowTextView: () -> Unit) : DialogFragment() {
 
     @SuppressLint("InflateParams", "ShowToast")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -28,6 +28,7 @@ class SearchDialog(private val onSearchChange: (String) -> Unit) : DialogFragmen
                 { _, _ ->
                     val searchLocation = dialog!!.findViewById<View>(R.id.name) as EditText
                     val searchForCity = searchLocation.text.toString()
+                    onSearchClickShowTextView()
                     onSearchChange(searchForCity)
                 }
                 .setNegativeButton(R.string.cancel)

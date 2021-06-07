@@ -143,6 +143,7 @@
                 android:id="@+id/tv_min_temp_text"
                 style="@style/CustomStyle.Text.Primary"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text="min"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_day" />
@@ -151,16 +152,14 @@
                 android:id="@+id/tv_min_value"
                 style="@style/CustomStyle.Text.Primary"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                tools:text="minValue"
                 android:text="@{bindDay.forecastModel.tempMin}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_min_temp_text" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_min_temp_text"
+                tools:text="minValue" />
 
             <TextView
                 android:id="@+id/textView6"
                 style="@style/CustomStyle.Text.Primary"
-                android:layout_marginTop="8dp"
                 android:text="°"
                 app:layout_constraintStart_toEndOf="@+id/tv_min_value"
                 app:layout_constraintTop_toBottomOf="@+id/tv_min_temp_text" />
@@ -178,16 +177,14 @@
                 android:id="@+id/tv_max_value"
                 style="@style/CustomStyle.Text.Primary"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                tools:text="maxValue"
                 android:text="@{bindDay.forecastModel.tempMax}"
                 app:layout_constraintStart_toEndOf="@+id/textView6"
-                app:layout_constraintTop_toBottomOf="@+id/tv_max_text" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_max_text"
+                tools:text="maxValue" />
 
             <TextView
                 android:id="@+id/textView7"
                 style="@style/CustomStyle.Text.Primary"
-                android:layout_marginTop="8dp"
                 android:text="°"
                 app:layout_constraintStart_toEndOf="@+id/tv_max_value"
                 app:layout_constraintTop_toBottomOf="@+id/tv_min_temp_text" />
